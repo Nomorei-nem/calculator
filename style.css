@@ -10,35 +10,64 @@ html {
 
 @font-face {
 	font-family: 'digital-7-mono';
-	src: url('./fonts/digital-7/digital-7-mono.ttf');
+	src: url('./assets/fonts/digital-7/digital-7-mono.ttf');
+}
+
+@font-face {
+	font-family: 'OPTIEEdgar-Bold';
+	src: url('./assets/fonts/OPTIEdgar-Bold_Extended/OPTIEdgarBold-Extended.otf');
+}
+
+body {
+	background-image: url(./assets/joanna-kosinska-LAaSoL0LrYs-unsplash.jpg);
+
+	background-size: cover;
 }
 
 .main {
-	width: 120rem;
 	margin: 0 auto;
-	background-color: green;
+
 	text-align: center;
 }
 
 .calculator {
 	margin: 9rem auto;
 	display: inline-block;
-	background-color: #aaa;
+
+	background: linear-gradient(#49474e, #28272b);
 	padding: 2rem;
 	border-radius: 0.9rem;
+	box-shadow: 0px 10px 20px 0 #000;
 }
 
 .calculator-model-details {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 1rem;
+}
+
+.calculator-model-details:first-child {
+	font-family: 'OPTIEEdgar-Bold', sans-serif;
+	font-size: 2rem;
+	font-weight: 600;
+	color: #fff;
+}
+
+.model-details {
+	font-family: 'Comfortaa';
+	font-size: 1rem;
 }
 
 .screen {
-	background-color: grey;
+	background: radial-gradient(#d3e1e1, #adb9b9);
 	display: inline-block;
 	width: 100%;
 	height: 10rem;
 	margin-bottom: 0.9rem;
 	border-radius: 0.5rem;
 	cursor: grab;
+	box-shadow: inset 0 0 0px 3px #6a7272;
 }
 
 .keypad {
@@ -50,31 +79,39 @@ html {
 	max-width: 50rem;
 }
 
+.key.text-keys {
+	font-size: 2rem;
+	padding: 1rem;
+}
+
 .solar-cell {
 	grid-column: 1 / 4;
 
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	column-gap: 0.1rem;
+	background-color: #2b1d1a8a;
 
 	height: 90%;
 	width: 70%;
 
 	cursor: grab;
+	border-radius: 0.6rem;
+	box-shadow: 0 0 0px 3px #2c2c30;
 }
 
 .cell {
-	background-color: grey;
+	background: radial-gradient(#2b1d1a, #1b1210);
 }
 
 .cell:first-child {
-	border-top-left-radius: 0.5rem;
-	border-bottom-left-radius: 0.5rem;
+	border-top-left-radius: 0.6rem;
+	border-bottom-left-radius: 0.6rem;
 }
 
 .cell:nth-child(4) {
-	border-top-right-radius: 0.5rem;
-	border-bottom-right-radius: 0.5rem;
+	border-top-right-radius: 0.6rem;
+	border-bottom-right-radius: 0.6rem;
 }
 
 .key {
@@ -86,13 +123,22 @@ html {
 	justify-content: center;
 	border-radius: 9px;
 	color: #fff;
-	background-color: #343a40;
-	border: none;
+
+	background: radial-gradient(#5c5c5e, #404042);
+	border: 1px solid transparent;
+	outline: none;
 	cursor: pointer;
+	box-shadow: 0 5px #1a1818;
+}
+
+.key:active {
+	border: 1px solid #272626;
+	box-shadow: none;
+	transform: translateY(5px);
 }
 
 .text-keys {
-	background-color: #fa5252;
+	background-color: #f35308c5;
 }
 
 .plus-sign {
