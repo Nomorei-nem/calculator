@@ -7,95 +7,64 @@ const keyStroke = new Audio(
 
 const currentEquation = document.querySelector('.current-equation');
 const screenResults = document.querySelector('.results');
+const equals = document.querySelector('.key--equals');
+const numbers = document.querySelectorAll('.number');
+const backspace = document.querySelector('.backspace');
+const deleteEquation = document.querySelector('.delete');
+const positiveNegative = document.querySelector('.positive-negative');
+const sqRoot = document.querySelector('.square-root');
+const decimal = document.querySelector('.decimal');
 
-keys.forEach((e) => {
+const operators = ['^', '%', '/', '+', '*', '-'];
+
+let firstNumber = null;
+let secondNumber = null;
+
+keys.forEach((e) =>
 	e.addEventListener('click', () => {
 		keyStroke.play();
+		if (screenResults.innerHTML === 'ERROR') screenResults.innerHTML = '';
+	})
+);
 
-		if (Number.isInteger(+e.value)) {
+numbers.forEach((e) => {
+	e.addEventListener('click', () => {
+		if (screenResults.innerHTML.length <= 12)
 			screenResults.innerHTML += e.value;
-		}
-
-		switch (e.value) {
-			case '^': {
-				console.log(e);
-				screenResults.innerHTML += e.value;
-				break;
-			}
-			case '%': {
-				screenResults.innerHTML += e.value;
-				break;
-			}
-			case '/': {
-				screenResults.innerHTML += e.value;
-				break;
-			}
-			case '+': {
-				screenResults.innerHTML += e.value;
-				break;
-			}
-			case '*': {
-				screenResults.innerHTML += e.value;
-				break;
-			}
-			case '-': {
-				screenResults.innerHTML += e.value;
-				break;
-			}
-			case '=': {
-				screenResults.innerHTML += e.value;
-				break;
-			}
-			case 'backspace': {
-				screenResults.innerHTML = screenResults.innerHTML.slice(0, -1);
-				break;
-			}
-			case 'delete': {
-				currentEquation.innerHTML = '';
-				screenResults.innerHTML = '';
-				break;
-			}
-			case 'enter': {
-				screenResults.innerHTML += e.value;
-				break;
-			}
-			case 'square-root': {
-				screenResults.innerHTML += '√';
-				break;
-			}
-			case '+/-': {
-				screenResults.innerHTML += '±';
-				break;
-			}
-			case '.': {
-				screenResults.innerHTML += '.';
-				break;
-			}
-		}
-
-		// if (e.value === 'delete') currentEquation.innerHTML = '';
-
-		// if (e.value === )
-
-		// console.log(e.value);
 	});
+});
+
+backspace.addEventListener(
+	'click',
+	() => (screenResults.innerHTML = screenResults.innerHTML.slice(0, -1))
+);
+
+deleteEquation.addEventListener('click', () => {
+	currentEquation.innerHTML = '';
+	screenResults.innerHTML = '';
+});
+
+positiveNegative.addEventListener('click', () => {
+	if (screenResults.innerHTML[0] === '-')
+		screenResults.innerHTML = screenResults.innerHTML.slice(1);
+	else if (screenResults.innerHTML[0] !== '-')
+		screenResults.innerHTML = `-${screenResults.innerHTML}`;
+});
+
+sqRoot.addEventListener('click', () => {
+	const squared = +Math.sqrt(+screenResults.innerHTML).toString().slice(0, 12);
+
+	if (+screenResults.innerHTML < 0) screenResults.innerHTML = 'ERROR';
+	else screenResults.innerHTML = squared;
+});
+
+decimal.addEventListener('click', () => {
+	console.log(!screenResults.innerHTML.includes('.'));
+	if (!screenResults.innerHTML.includes('.')) screenResults.innerHTML += '.';
 });
 
 document.addEventListener('keydown', (e) => {
 	console.log(e);
-
-	const operators = [
-		'^',
-		'%',
-		'/',
-		'+',
-		'*',
-		'-',
-		'=',
-		'Backspace',
-		'Delete',
-		'Enter',
-	];
 
 	if (operators.includes(e.key)) {
 		keyStroke.play();
@@ -106,4 +75,8 @@ document.addEventListener('keydown', (e) => {
 		keyStroke.play();
 		screenResults.innerHTML += +e.key;
 	}
+});
+
+equals.addEventListener('click', () => {
+	console.log('sada');
 });
