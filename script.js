@@ -14,11 +14,13 @@ const deleteEquation = document.querySelector('.delete');
 const positiveNegative = document.querySelector('.positive-negative');
 const sqRoot = document.querySelector('.square-root');
 const decimal = document.querySelector('.decimal');
+const operators = document.querySelectorAll('.operators');
 
-const operators = ['^', '%', '/', '+', '*', '-'];
+const operatorSigns = ['^', '%', '/', '+', '*', '-'];
 
 let firstNumber = null;
 let secondNumber = null;
+let operator = null;
 
 keys.forEach((e) =>
 	e.addEventListener('click', () => {
@@ -55,13 +57,82 @@ sqRoot.addEventListener('click', () => {
 	const squared = +Math.sqrt(+screenResults.innerHTML).toString().slice(0, 12);
 
 	if (+screenResults.innerHTML < 0) screenResults.innerHTML = 'ERROR';
-	else screenResults.innerHTML = squared;
+	else if (screenResults.innerHTML.length > 0)
+		screenResults.innerHTML = squared;
 });
 
 decimal.addEventListener('click', () => {
 	console.log(!screenResults.innerHTML.includes('.'));
 	if (!screenResults.innerHTML.includes('.')) screenResults.innerHTML += '.';
 });
+
+operators.forEach((e) => {
+	e.addEventListener('click', () => {
+		operator = currentEquation.innerHTML.slice(-1);
+
+		if (
+			currentEquation.innerHTML.length > 0 &&
+			screenResults.innerHTML.length > 0 &&
+			screenResults.innerHTML !== '-'
+		) {
+			firstNumber = parseFloat(currentEquation.innerHTML);
+			secondNumber = parseFloat(screenResults.innerHTML);
+
+			switch (operator) {
+				case '+': {
+					currentEquation.innerHTML = firstNumber + secondNumber + e.value;
+					screenResults.innerHTML = '';
+					break;
+				}
+				case '-': {
+					currentEquation.innerHTML = firstNumber - secondNumber + e.value;
+					screenResults.innerHTML = '';
+					break;
+				}
+				case '*': {
+					currentEquation.innerHTML = firstNumber * secondNumber + e.value;
+					screenResults.innerHTML = '';
+					break;
+				}
+				case '/': {
+					currentEquation.innerHTML = firstNumber / secondNumber + e.value;
+					screenResults.innerHTML = '';
+					break;
+				}
+				case '^': {
+					currentEquation.innerHTML = firstNumber ** secondNumber + e.value;
+					screenResults.innerHTML = '';
+					break;
+				}
+				case '%': {
+					currentEquation.innerHTML =
+						firstNumber * (secondNumber / 100) + e.value;
+					screenResults.innerHTML = '';
+					break;
+				}
+			}
+		} else if (
+			screenResults.innerHTML.length > 0 &&
+			screenResults.innerHTML !== '-'
+		) {
+			currentEquation.innerHTML = screenResults.innerHTML + e.value;
+			screenResults.innerHTML = '';
+		} else if (
+			currentEquation.innerHTML.length > 0 &&
+			screenResults.innerHTML.length === 0
+		) {
+			currentEquation.innerHTML =
+				currentEquation.innerHTML.slice(0, -1) + e.value;
+		}
+	});
+});
+
+equals.addEventListener('click', () => {
+	if (firstNumber !== null && (secondNumber !== null) & (operator !== null)) {
+	}
+});
+
+///////////////////////////////////////
 
 document.addEventListener('keydown', (e) => {
 	console.log(e);
