@@ -16,6 +16,81 @@ const sqRoot = document.querySelector('.square-root');
 const decimal = document.querySelector('.decimal');
 const operators = document.querySelectorAll('.operators');
 
+const operationFunction = function (operator, firstNumber, secondNumber, e) {
+	switch (operator) {
+		case '+': {
+			currentEquation.innerHTML = firstNumber + secondNumber + e.value;
+			screenResults.innerHTML = '';
+			break;
+		}
+		case '-': {
+			currentEquation.innerHTML = firstNumber - secondNumber + e.value;
+			screenResults.innerHTML = '';
+			break;
+		}
+		case '*': {
+			currentEquation.innerHTML = firstNumber * secondNumber + e.value;
+			screenResults.innerHTML = '';
+			break;
+		}
+		case '/': {
+			currentEquation.innerHTML = firstNumber / secondNumber + e.value;
+			screenResults.innerHTML = '';
+			break;
+		}
+		case '^': {
+			currentEquation.innerHTML = firstNumber ** secondNumber + e.value;
+			screenResults.innerHTML = '';
+			break;
+		}
+		case '%': {
+			currentEquation.innerHTML = (firstNumber * (secondNumber / 100))
+				.toString()
+				.slice(0, 12);
+			+e.value;
+			screenResults.innerHTML = '';
+			break;
+		}
+	}
+};
+
+const equalsFunction = function (operator, firstNumber, secondNumber) {
+	switch (operator) {
+		case '+': {
+			screenResults.innerHTML = firstNumber + secondNumber;
+			currentEquation.innerHTML = '';
+			break;
+		}
+		case '-': {
+			screenResults.innerHTML = firstNumber - secondNumber;
+			currentEquation.innerHTML = '';
+			break;
+		}
+		case '*': {
+			screenResults.innerHTML = firstNumber * secondNumber;
+			currentEquation.innerHTML = '';
+			break;
+		}
+		case '/': {
+			screenResults.innerHTML = firstNumber / secondNumber;
+			currentEquation.innerHTML = '';
+			break;
+		}
+		case '^': {
+			screenResults.innerHTML = firstNumber ** secondNumber;
+			currentEquation.innerHTML = '';
+			break;
+		}
+		case '%': {
+			screenResults.innerHTML = (firstNumber * (secondNumber / 100))
+				.toString()
+				.slice(0, 12);
+			currentEquation.innerHTML = '';
+			break;
+		}
+	}
+};
+
 const operatorSigns = ['^', '%', '/', '+', '*', '-'];
 
 let firstNumber = null;
@@ -62,7 +137,6 @@ sqRoot.addEventListener('click', () => {
 });
 
 decimal.addEventListener('click', () => {
-	console.log(!screenResults.innerHTML.includes('.'));
 	if (!screenResults.innerHTML.includes('.')) screenResults.innerHTML += '.';
 });
 
@@ -78,39 +152,7 @@ operators.forEach((e) => {
 			firstNumber = parseFloat(currentEquation.innerHTML);
 			secondNumber = parseFloat(screenResults.innerHTML);
 
-			switch (operator) {
-				case '+': {
-					currentEquation.innerHTML = firstNumber + secondNumber + e.value;
-					screenResults.innerHTML = '';
-					break;
-				}
-				case '-': {
-					currentEquation.innerHTML = firstNumber - secondNumber + e.value;
-					screenResults.innerHTML = '';
-					break;
-				}
-				case '*': {
-					currentEquation.innerHTML = firstNumber * secondNumber + e.value;
-					screenResults.innerHTML = '';
-					break;
-				}
-				case '/': {
-					currentEquation.innerHTML = firstNumber / secondNumber + e.value;
-					screenResults.innerHTML = '';
-					break;
-				}
-				case '^': {
-					currentEquation.innerHTML = firstNumber ** secondNumber + e.value;
-					screenResults.innerHTML = '';
-					break;
-				}
-				case '%': {
-					currentEquation.innerHTML =
-						firstNumber * (secondNumber / 100) + e.value;
-					screenResults.innerHTML = '';
-					break;
-				}
-			}
+			operationFunction(operator, firstNumber, secondNumber, e);
 		} else if (
 			screenResults.innerHTML.length > 0 &&
 			screenResults.innerHTML !== '-'
@@ -127,27 +169,19 @@ operators.forEach((e) => {
 	});
 });
 
-equals.addEventListener('click', () => {
-	if (firstNumber !== null && (secondNumber !== null) & (operator !== null)) {
+equals.addEventListener('click', (e) => {
+	if (
+		currentEquation.innerHTML.length > 0 &&
+		screenResults.innerHTML.length > 0 &&
+		screenResults.innerHTML !== '-'
+	) {
+		operator = currentEquation.innerHTML.slice(-1);
+		firstNumber = parseFloat(currentEquation.innerHTML);
+		secondNumber = parseFloat(screenResults.innerHTML);
+
+		equalsFunction(operator, firstNumber, secondNumber);
+		console.log(operator, firstNumber, secondNumber, e);
 	}
 });
 
-///////////////////////////////////////
-
-document.addEventListener('keydown', (e) => {
-	console.log(e);
-
-	if (operators.includes(e.key)) {
-		keyStroke.play();
-		screenResults.innerHTML += e.key;
-	}
-
-	if (Number.isInteger(+e.key)) {
-		keyStroke.play();
-		screenResults.innerHTML += +e.key;
-	}
-});
-
-equals.addEventListener('click', () => {
-	console.log('sada');
-});
+// Keyboard Support
