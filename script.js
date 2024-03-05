@@ -16,6 +16,11 @@ const sqRoot = document.querySelector('.square-root');
 const decimal = document.querySelector('.decimal');
 const operators = document.querySelectorAll('.operators');
 
+let firstNumber = null;
+let secondNumber = null;
+let operator = null;
+
+// Function for Operator keys
 const operationFunction = function (operator, firstNumber, secondNumber, e) {
 	switch (operator) {
 		case '+': {
@@ -54,6 +59,7 @@ const operationFunction = function (operator, firstNumber, secondNumber, e) {
 	}
 };
 
+// Functions for Equals key
 const equalsFunction = function (operator, firstNumber, secondNumber) {
 	switch (operator) {
 		case '+': {
@@ -91,12 +97,7 @@ const equalsFunction = function (operator, firstNumber, secondNumber) {
 	}
 };
 
-const operatorSigns = ['^', '%', '/', '+', '*', '-'];
-
-let firstNumber = null;
-let secondNumber = null;
-let operator = null;
-
+// Add key stroke sound effect
 keys.forEach((e) =>
 	e.addEventListener('click', () => {
 		keyStroke.play();
@@ -104,6 +105,7 @@ keys.forEach((e) =>
 	})
 );
 
+// Event listener for Number keys
 numbers.forEach((e) => {
 	e.addEventListener('click', () => {
 		if (screenResults.innerHTML.length <= 12)
@@ -111,16 +113,22 @@ numbers.forEach((e) => {
 	});
 });
 
+// Event listener for Backspace key
 backspace.addEventListener(
 	'click',
 	() => (screenResults.innerHTML = screenResults.innerHTML.slice(0, -1))
 );
 
+// Event listener for Equation-Clear key
 deleteEquation.addEventListener('click', () => {
 	currentEquation.innerHTML = '';
 	screenResults.innerHTML = '';
+	firstNumber = null;
+	secondNumber = null;
+	operator = null;
 });
 
+// Event listener for +/- key
 positiveNegative.addEventListener('click', () => {
 	if (screenResults.innerHTML[0] === '-')
 		screenResults.innerHTML = screenResults.innerHTML.slice(1);
@@ -128,6 +136,7 @@ positiveNegative.addEventListener('click', () => {
 		screenResults.innerHTML = `-${screenResults.innerHTML}`;
 });
 
+// Event listener for Square Root key
 sqRoot.addEventListener('click', () => {
 	const squared = +Math.sqrt(+screenResults.innerHTML).toString().slice(0, 12);
 
@@ -136,10 +145,12 @@ sqRoot.addEventListener('click', () => {
 		screenResults.innerHTML = squared;
 });
 
+// Event listener for Decimal key
 decimal.addEventListener('click', () => {
 	if (!screenResults.innerHTML.includes('.')) screenResults.innerHTML += '.';
 });
 
+// Event listeners for Operator keys
 operators.forEach((e) => {
 	e.addEventListener('click', () => {
 		operator = currentEquation.innerHTML.slice(-1);
@@ -169,6 +180,7 @@ operators.forEach((e) => {
 	});
 });
 
+// Event listener for Equals key
 equals.addEventListener('click', (e) => {
 	if (
 		currentEquation.innerHTML.length > 0 &&
@@ -180,8 +192,66 @@ equals.addEventListener('click', (e) => {
 		secondNumber = parseFloat(screenResults.innerHTML);
 
 		equalsFunction(operator, firstNumber, secondNumber);
-		console.log(operator, firstNumber, secondNumber, e);
 	}
 });
 
-// Keyboard Support
+///////////////////////// Keyboard Support /////////////////////////
+
+const keyboardKeys = [
+	'Backspace',
+	'Delete',
+	'9',
+	'8',
+	'7',
+	'6',
+	'5',
+	'4',
+	'3',
+	'2',
+	'1',
+	'0',
+	'^',
+	'%',
+	'/',
+	'+',
+	'*',
+	'-',
+	'=',
+	'.',
+];
+
+// Event listener to push down keys on UI
+document.addEventListener('keydown', (e) => {
+	if (keyboardKeys.includes(e.key)) {
+		keyStroke.play();
+		const btn = document.querySelector(`[value="${e.key}"]`);
+
+		btn.classList.add('active');
+	}
+});
+
+// Event listener to push up keys on UI
+document.addEventListener('keyup', (e) => {
+	if (keyboardKeys.includes(e.key)) {
+		const btn = document.querySelector(`[value="${e.key}"]`);
+
+		btn.classList.remove('active');
+	}
+});
+
+const enterKey = document.querySelector('.enter');
+
+// Event listener to push down '=' on UI
+document.addEventListener('keydown', (e) => {
+	if (e.key === 'Enter') {
+		keyStroke.play();
+		enterKey.classList.add('active');
+	}
+});
+
+// Event listener to push up '=' on UI
+document.addEventListener('keyup', (e) => {
+	if (e.key === 'Enter') {
+		enterKey.classList.remove('active');
+	}
+});
