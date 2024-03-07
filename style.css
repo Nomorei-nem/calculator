@@ -24,16 +24,22 @@ body {
 
 	background-size: cover;
 	background-repeat: no-repeat;
+	overflow: visible;
 }
 
 .main {
-	margin: 0 auto;
-
 	text-align: center;
+
+	height: 100vh;
+	width: 100%;
+
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .calculator {
-	margin: 9rem auto;
 	display: inline-block;
 
 	background: linear-gradient(#49474e, #28272b);
@@ -183,4 +189,34 @@ body {
 .plus-sign {
 	grid-row: 4 / 6;
 	grid-column: 4 / 5;
+}
+
+.big--oops {
+	height: 100vh;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	opacity: 0;
+	visibility: hidden;
+
+	transition: all 3s;
+
+	background-image: radial-gradient(
+		rgba(0, 0, 0, 0.7) 0%,
+		rgba(0, 0, 0, 0.9) 20%,
+		rgba(0, 0, 0, 1) 85%,
+		rgb(167, 0, 0) 100%
+	);
+}
+
+.checkbox {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.checkbox:checked + .big--oops {
+	opacity: 1;
+	visibility: visible;
 }

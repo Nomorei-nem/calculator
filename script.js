@@ -61,7 +61,49 @@ const operationFunction = function (operator, firstNumber, secondNumber, e) {
 
 // Functions for Equals key
 const equalsFunction = function (e) {
+	//////// Dividing by 0 ////////
 	if (
+		currentEquation.innerHTML.slice(-1) === '/' &&
+		+screenResults.innerHTML === 0
+	) {
+		const hal = document.querySelector('.big--oops');
+		const imAfraid = new Audio('./assets/sorry-dave-clipped.wav');
+		const checkbox = document.querySelector('.checkbox');
+
+		// Functions to call RNG at intervals
+		const rngRunning1 = setInterval(function () {
+			const rng1 = () =>
+				Math.floor(Math.random() * (99999999999999999 - 10000000000000000 + 1));
+			currentEquation.innerHTML = rng1();
+		}, 70);
+
+		const rngRunning2 = setInterval(function () {
+			const rng2 = () =>
+				Math.floor(Math.random() * (99999999999999 - 10000000000000 + 1));
+			screenResults.innerHTML = rng2();
+		}, 70);
+
+		checkbox.checked = true;
+		imAfraid.play();
+
+		firstNumber = null;
+		secondNumber = null;
+		operator = null;
+
+		hal.addEventListener('click', (e) => {
+			checkbox.checked = false;
+			firstNumber = null;
+			secondNumber = null;
+			operator = null;
+
+			clearInterval(rngRunning1);
+			clearInterval(rngRunning2);
+			currentEquation.innerHTML = '';
+			screenResults.innerHTML = '';
+		});
+
+		///////////////////
+	} else if (
 		currentEquation.innerHTML.length > 0 &&
 		screenResults.innerHTML.length > 0 &&
 		screenResults.innerHTML !== '-'

@@ -15,24 +15,22 @@
 		<link rel="stylesheet" href="./style.css" />
 		<link rel="icon" href="./assets/calcfavicon.svg" type="image/svg+xml" />
 
-		
-		
-
 		<script defer src="./script.js"></script>
 		<title>Calculator</title>
 	</head>
 
 	<body>
 		<main class="main">
-
-			
 			<div class="calculator">
 				<div class="calculator-model-details">
 					<div>ODIN</div>
 					<div class="model-details">nem - 2-22-24</div>
 				</div>
-				<div class="screen"><div class="current-equation"></div><div class="results"></div></div>
-				
+				<div class="screen">
+					<div class="current-equation"></div>
+					<div class="results"></div>
+				</div>
+
 				<div class="keypad">
 					<span class="solar-cell">
 						<span class="cell"></span>
@@ -47,23 +45,33 @@
 					<button class="key number" value="8">8</button>
 					<button class="key number" value="9">9</button>
 					<button class="key key--green operators" value="%">%</button>
-					<button class="key key--green square-root" value="square-root">&#8730;</button>
+					<button class="key key--green square-root" value="square-root">
+						&#8730;
+					</button>
 					<button class="key number" value="4">4</button>
 					<button class="key number" value="5">5</button>
 					<button class="key number" value="6">6</button>
-					<button class="key key--green positive-negative" value="+/-">&plusmn;</button>
+					<button class="key key--green positive-negative" value="+/-">
+						&plusmn;
+					</button>
 					<button class="key key--green operators" value="/">&divide;</button>
 					<button class="key number" value="1">1</button>
 					<button class="key number" value="2">2</button>
 					<button class="key number" value="3">3</button>
-					<button class="key plus-sign key--green operators" value="+">+</button>
+					<button class="key plus-sign key--green operators" value="+">
+						+
+					</button>
 					<button class="key key--green operators" value="*">&times;</button>
-					<button class="key number " value="0">0</button>
+					<button class="key number" value="0">0</button>
 					<button class="key decimal" value=".">.</button>
 					<button class="key key--green operators _-" value="-">&minus;</button>
 					<button class="key key--equals enter" value="=">=</button>
-				</main>
 				</div>
 			</div>
+			<div>
+				<input type="checkbox" class="checkbox" />
+				<div class="big--oops"></div>
+			</div>
+		</main>
 	</body>
 </html>
