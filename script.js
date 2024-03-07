@@ -60,50 +60,52 @@ const operationFunction = function (operator, firstNumber, secondNumber, e) {
 };
 
 // Functions for Equals key
-const equalsFunction = function (operator, firstNumber, secondNumber) {
-	switch (operator) {
-		case '+': {
-			screenResults.innerHTML = firstNumber + secondNumber;
-			currentEquation.innerHTML = '';
-			break;
-		}
-		case '-': {
-			screenResults.innerHTML = firstNumber - secondNumber;
-			currentEquation.innerHTML = '';
-			break;
-		}
-		case '*': {
-			screenResults.innerHTML = firstNumber * secondNumber;
-			currentEquation.innerHTML = '';
-			break;
-		}
-		case '/': {
-			screenResults.innerHTML = firstNumber / secondNumber;
-			currentEquation.innerHTML = '';
-			break;
-		}
-		case '^': {
-			screenResults.innerHTML = firstNumber ** secondNumber;
-			currentEquation.innerHTML = '';
-			break;
-		}
-		case '%': {
-			screenResults.innerHTML = (firstNumber * (secondNumber / 100))
-				.toString()
-				.slice(0, 12);
-			currentEquation.innerHTML = '';
-			break;
+const equalsFunction = function (e) {
+	if (
+		currentEquation.innerHTML.length > 0 &&
+		screenResults.innerHTML.length > 0 &&
+		screenResults.innerHTML !== '-'
+	) {
+		operator = currentEquation.innerHTML.slice(-1);
+		firstNumber = parseFloat(currentEquation.innerHTML);
+		secondNumber = parseFloat(screenResults.innerHTML);
+
+		switch (operator) {
+			case '+': {
+				screenResults.innerHTML = firstNumber + secondNumber;
+				currentEquation.innerHTML = '';
+				break;
+			}
+			case '-': {
+				screenResults.innerHTML = firstNumber - secondNumber;
+				currentEquation.innerHTML = '';
+				break;
+			}
+			case '*': {
+				screenResults.innerHTML = firstNumber * secondNumber;
+				currentEquation.innerHTML = '';
+				break;
+			}
+			case '/': {
+				screenResults.innerHTML = firstNumber / secondNumber;
+				currentEquation.innerHTML = '';
+				break;
+			}
+			case '^': {
+				screenResults.innerHTML = firstNumber ** secondNumber;
+				currentEquation.innerHTML = '';
+				break;
+			}
+			case '%': {
+				screenResults.innerHTML = (firstNumber * (secondNumber / 100))
+					.toString()
+					.slice(0, 12);
+				currentEquation.innerHTML = '';
+				break;
+			}
 		}
 	}
 };
-
-// Add key stroke sound effect
-keys.forEach((e) =>
-	e.addEventListener('click', () => {
-		keyStroke.play();
-		if (screenResults.innerHTML === 'ERROR') screenResults.innerHTML = '';
-	})
-);
 
 // Event listener for Number keys
 numbers.forEach((e) => {
@@ -181,19 +183,18 @@ operators.forEach((e) => {
 });
 
 // Event listener for Equals key
-equals.addEventListener('click', (e) => {
-	if (
-		currentEquation.innerHTML.length > 0 &&
-		screenResults.innerHTML.length > 0 &&
-		screenResults.innerHTML !== '-'
-	) {
-		operator = currentEquation.innerHTML.slice(-1);
-		firstNumber = parseFloat(currentEquation.innerHTML);
-		secondNumber = parseFloat(screenResults.innerHTML);
+equals.addEventListener('click', () => equalsFunction());
 
-		equalsFunction(operator, firstNumber, secondNumber);
-	}
-});
+// Add key stroke sound effect
+keys.forEach((e) =>
+	e.addEventListener('click', (e) => {
+		keyStroke.play();
+		if (screenResults.innerHTML === 'ERROR') {
+			screenResults.innerHTML = '';
+		}
+		e.target.blur();
+	})
+);
 
 ///////////////////////// Keyboard Support /////////////////////////
 
@@ -227,6 +228,7 @@ document.addEventListener('keydown', (e) => {
 		const btn = document.querySelector(`[value="${e.key}"]`);
 
 		btn.classList.add('active');
+		btn.click();
 	}
 });
 
@@ -244,14 +246,15 @@ const enterKey = document.querySelector('.enter');
 // Event listener to push down '=' on UI
 document.addEventListener('keydown', (e) => {
 	if (e.key === 'Enter') {
-		keyStroke.play();
-		enterKey.classList.add('active');
+		enterKey.click();
+
+		equals.classList.add('active');
 	}
 });
 
 // Event listener to push up '=' on UI
 document.addEventListener('keyup', (e) => {
 	if (e.key === 'Enter') {
-		enterKey.classList.remove('active');
+		equals.classList.remove('active');
 	}
 });
